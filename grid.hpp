@@ -1,5 +1,6 @@
 
 #pragma once
+#include <cmath>
 
 struct Grid {
 
@@ -50,6 +51,23 @@ struct Grid {
         index -= dim_x * (coordinate.y - 1);
         index -= coordinate.x - 1;
         return grid_positions[index];
+    }
+
+    sf::Vector2f nearestCell(uint32_t x, uint32_t y) {
+
+        float dist;
+        float min_dist = -1;
+        sf::Vector2f nearest;
+
+        for (sf::Vector2f position : grid_positions) {
+            dist = sqrtf((static_cast<float>(x) - position.x) * (static_cast<float>(x) - position.x) +
+                    (static_cast<float>(y) - position.y) * (static_cast<float>(y) - position.y));
+            if (min_dist == -1 || min_dist > dist) {
+                min_dist = dist;
+                nearest = position;
+            }
+        }
+        return nearest;
     }
 
     [[nodiscard]]

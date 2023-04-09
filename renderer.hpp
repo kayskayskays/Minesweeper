@@ -23,10 +23,22 @@ struct Renderer {
         for (sf::Vector2f position : game.grid.grid_positions) {
             sf::RectangleShape square(sf::Vector2f(game.grid.deltaX(), game.grid.deltaY())); // fix this
             square.setOutlineColor(sf::Color{96, 96, 96});
-            square.setOutlineThickness(1.0f);
+            square.setOutlineThickness(5.0f);
             square.setPosition(position - 0.5f * square.getSize());
             square.setFillColor(sf::Color{154, 154, 154});
             target.draw(square);
+        }
+
+        for (sf::Vector2f click : game.flags) {
+            sf::CircleShape triangle(1.0f, 3);
+            triangle.rotate(90);
+            triangle.setOrigin(1.0f, 1.0f);
+            triangle.setOutlineColor(sf::Color::Yellow);
+            triangle.setOutlineThickness(0.1f);
+            triangle.setFillColor(sf::Color::Red);
+            triangle.scale(game.grid.deltaX() / 4, game.grid.deltaY() / 4);
+            triangle.setPosition(click.x, click.y);
+            target.draw(triangle);
         }
 
         for (sf::Vector2u bomb : game.generator.bomb_positions) {
@@ -34,9 +46,9 @@ struct Renderer {
             circle.setOrigin(1.0f, 1.0f);
             circle.setOutlineColor(sf::Color::Red);
             circle.setOutlineThickness(0.1f);
+            circle.setFillColor(sf::Color{38, 38, 38});
             circle.scale(game.grid.deltaX() / 3, game.grid.deltaY() / 3);
             circle.setPosition(game.grid.ordToPos(bomb));
-            circle.setFillColor(sf::Color{38, 38, 38});
             target.draw(circle);
         }
 
