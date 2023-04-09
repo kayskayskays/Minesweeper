@@ -5,18 +5,20 @@ struct Grid {
 
     uint32_t window_width = 1000;
     uint32_t window_height = 1000;
+
     uint32_t dim_x = 9;
     uint32_t dim_y = 9;
 
     std::vector<sf::Vector2f> grid_positions;
 
-    Grid() = default;
+    explicit
     Grid(uint32_t window_width_, uint32_t window_height_ = 1000, uint32_t dim_x_ = 9, uint32_t dim_y_ = 9)
     : window_width {window_width_}
     , window_height {window_height_}
     , dim_x {dim_x_}
     , dim_y {dim_y_}
     {}
+    Grid() = default;
 
     void choosePositions() {
 
@@ -33,6 +35,31 @@ struct Grid {
                 grid_positions.emplace_back(x, y);
             }
         }
+    }
+
+    sf::Vector2u posToOrd(sf::Vector2f position) {
+        auto it = std::find(grid_positions.begin(), grid_positions.end(), position);
+        uint32_t index = -(it - grid_positions.begin()) + grid_positions.size() + 1;
+        uint32_t y = index % dim_y;
+        uint32_t x = (index - y) / dim_x;
+        return {x, y};
+    }
+
+    sf::Vector2f ordToPos(sf::Vector2u coordinate) {
+        uint32_t index = grid_positions.size() - 1;
+        index -= dim_x * (coordinate.y - 1);
+        index -= coordinate.x - 1;
+        return grid_positions[index];
+    }
+
+    [[nodiscard]]
+    float deltaX() const {
+        return grid_positions[0].x - grid_positions[dim_y].x;
+    }
+
+    [[nodiscard]]
+    float deltaY() const {
+        return grid_positions[0].y - grid_positions[1].y;
     }
 
 };
