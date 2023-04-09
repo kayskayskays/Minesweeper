@@ -53,7 +53,9 @@ struct Renderer {
             triangle.setFillColor(sf::Color::Red);
             triangle.scale(game.grid.deltaX() / 4, game.grid.deltaY() / 4);
             triangle.setPosition(click.x, click.y);
-            target.draw(triangle);
+            if (std::find(game.uncovered.begin(), game.uncovered.end(), click) == game.uncovered.end()) {
+                target.draw(triangle);
+            }
         }
 
         if (game.bombed) {
@@ -65,7 +67,9 @@ struct Renderer {
                 circle.setFillColor(sf::Color{38, 38, 38});
                 circle.scale(game.grid.deltaX() / 3, game.grid.deltaY() / 3);
                 circle.setPosition(game.grid.ordToPos(bomb));
-                target.draw(circle);
+                if (std::find(game.flags.begin(), game.flags.end(), game.grid.ordToPos(bomb)) == game.flags.end()) {
+                    target.draw(circle);
+                }
             }
         }
 

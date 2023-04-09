@@ -61,7 +61,7 @@ struct Grid {
         return grid_positions[index];
     }
 
-    sf::Vector2f nearestCell(uint32_t x, uint32_t y) {
+    sf::Vector2f nearestTile(uint32_t x, uint32_t y) {
 
         float dist;
         float min_dist = -1;
