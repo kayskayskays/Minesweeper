@@ -38,7 +38,7 @@ int main() {
                 window.close();
             }
         }
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
         renderer.render(game);
         window.display();
     }
