@@ -16,6 +16,7 @@ struct Game {
     void generate() {
         grid.choosePositions();
         generator.generate();
+        generator.naive_numbering();
     }
 
 };

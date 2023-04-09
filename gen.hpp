@@ -23,7 +23,6 @@ struct BombGenerator {
     uint32_t dim_y = 9;
     uint32_t bomb_count = 10;
 
-
     std::vector<sf::Vector2u> bomb_positions;
     std::vector<sf::Vector3u> num_positions;
 
@@ -47,6 +46,53 @@ struct BombGenerator {
                 bomb_positions.emplace_back(x, y);
             } else {
                 i++;
+            }
+        }
+    }
+
+    [[nodiscard]]
+    uint32_t adjacent_bombs(uint32_t x, uint32_t y) const {
+
+        uint32_t count = 0;
+
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x, y + 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x, y - 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y + 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y - 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y + 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y - 1}) != bomb_positions.end()) {
+            count += 1;
+        }
+        return count;
+    }
+
+    void naive_numbering() {
+
+        uint32_t count = 0;
+
+        for (uint32_t i{dim_x}; i > 0; i--) {
+            for (uint32_t j{dim_y}; j > 0; j--) {
+
+                if ((count = adjacent_bombs(i, j)) != 0 &&
+                std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{i, j}) == bomb_positions.end()) {
+                    num_positions.emplace_back(i, j, count);
+                }
             }
         }
     }
