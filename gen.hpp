@@ -24,6 +24,7 @@ struct BombGenerator {
     uint32_t bomb_count = 10;
 
     std::vector<sf::Vector2u> bomb_positions;
+    std::vector<sf::Vector2u> safe_positions;
     std::vector<sf::Vector3u> num_positions;
     std::vector<sf::Vector2u> empty_positions;
 
@@ -92,6 +93,7 @@ struct BombGenerator {
 
                 if ((count = adjacent_bombs(i, j)) != 0 &&
                 std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{i, j}) == bomb_positions.end()) {
+                    safe_positions.emplace_back(i, j);
                     num_positions.emplace_back(i, j, count);
                 } else if ((count = adjacent_bombs(i, j) == 0) &&
                 std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{i, j}) == bomb_positions.end()) {

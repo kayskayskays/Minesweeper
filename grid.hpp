@@ -39,10 +39,18 @@ struct Grid {
     }
 
     sf::Vector2u posToOrd(sf::Vector2f position) {
+        uint32_t x = 1;
+        uint32_t y = 1;
+
         auto it = std::find(grid_positions.begin(), grid_positions.end(), position);
-        uint32_t index = -(it - grid_positions.begin()) + grid_positions.size() + 1;
-        uint32_t y = index % dim_y;
-        uint32_t x = (index - y) / dim_x;
+        uint32_t index = it - grid_positions.begin();
+        index = -index + grid_positions.size();
+        if (index % dim_y == 0) {
+            y = index / dim_y;
+        } else {
+            y = index / dim_y + 1;
+        }
+        x = index - (y - 1) * dim_y;
         return {x, y};
     }
 
@@ -78,6 +86,29 @@ struct Grid {
     [[nodiscard]]
     float deltaY() const {
         return grid_positions[0].y - grid_positions[1].y;
+    }
+
+    static std::vector<sf::Vector2u> adjacentTiles(sf::Vector2u tile) {
+        std::vector<sf::Vector2u> adjacent;
+        if (tile.y + 1 <= 9)
+            adjacent.emplace_back(tile.x, tile.y + 1);
+        if (tile.y - 1 > 0)
+            adjacent.emplace_back(tile.x, tile.y - 1);
+        if (tile.x + 1 <= 9) {
+            adjacent.emplace_back(tile.x + 1, tile.y);
+            if (tile.y + 1 <= 9)
+                adjacent.emplace_back(tile.x + 1, tile.y + 1);
+            if (tile.y - 1 > 0)
+                adjacent.emplace_back(tile.x + 1, tile.y - 1);
+        }
+        if (tile.x - 1 > 0) {
+            adjacent.emplace_back(tile.x - 1, tile.y);
+            if (tile.y + 1 <= 9)
+                adjacent.emplace_back(tile.x - 1, tile.y + 1);
+            if (tile.y - 1 > 0)
+                adjacent.emplace_back(tile.x - 1, tile.y - 1);
+        }
+        return adjacent;
     }
 
 };
