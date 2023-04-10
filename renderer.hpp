@@ -1,17 +1,27 @@
 
 #pragma once
 #include <iostream>
+#include <utility>
 #include "grid.hpp"
 
 struct Renderer {
 
     sf::RenderTarget& target;
     sf::Font font;
+    std::vector<std::pair<uint32_t, sf::Color>> color_map;
 
     explicit
     Renderer(sf::RenderTarget& target_)
-    : target {target_}
-    {}
+    : target {target_} {
+        color_map = {{1, sf::Color{1, 0, 250}},
+                     {2, sf::Color{4, 126, 0}},
+                     {3, sf::Color{254, 0, 0}},
+                     {4, sf::Color{1, 1, 128}},
+                     {5, sf::Color{129, 1, 1}},
+                     {6, sf::Color{0, 128, 128}},
+                     {7, sf::Color{0, 0, 0}},
+                     {8, sf::Color{128, 128, 128}}};
+    }
 
     void render(const Game& game) {
 
@@ -77,15 +87,13 @@ struct Renderer {
     void drawInt(const Game& game, sf::Vector3u num) {
         sf::Text text;
         text.setFont(font);
-        text.setCharacterSize(static_cast<uint32_t>(game.grid.deltaX() / 4));
-        text.setFillColor(sf::Color::White);
+        text.setCharacterSize(static_cast<uint32_t>(game.grid.deltaX() / 3));
+        text.setFillColor(color_map[num.z - 1].second);
         text.setString(std::to_string(num.z));
         float height = text.getGlobalBounds().height;
         float width = text.getGlobalBounds().width;
         text.setPosition(game.grid.ordToPos(sf::Vector2u{num.x, num.y}) -
                          sf::Vector2f{width / 2, height / 2});
-        text.setOutlineThickness(game.grid.deltaX() / 20);
-        text.setOutlineColor(sf::Color::Black);
         target.draw(text);
     }
 
