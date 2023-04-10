@@ -63,4 +63,13 @@ struct Game {
         generator.naive_numbering();
     }
 
+    void restart() {
+        bombed = false;
+        flags.clear();
+        uncovered.clear();
+        generator.clear();
+        generator.generate();
+        generator.naive_numbering();
+    }
+
 };

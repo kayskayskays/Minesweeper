@@ -107,4 +107,11 @@ struct BombGenerator {
             }
         }
     }
+
+    void clear() {
+        bomb_positions.clear();
+        safe_positions.clear();
+        num_positions.clear();
+        empty_positions.clear();
+    }
 };

@@ -34,6 +34,9 @@ int main() {
         sf::Event event{};
 
         while (window.pollEvent(event)) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+                game.restart();
+            }
             if (!game.bombed) {
                 if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Right) {
