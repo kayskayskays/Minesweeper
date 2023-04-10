@@ -8,12 +8,14 @@ struct Renderer {
 
     sf::RenderTarget& target;
     sf::Font font;
+    sf::Text text;
     std::vector<std::pair<uint32_t, sf::Color>> color_map;
+    float text_width = 0, text_height = 0;
 
     explicit
     Renderer(sf::RenderTarget& target_)
-    : target {target_} {
-        color_map = {{1, sf::Color{1, 0, 250}},
+    : target {target_}{
+        color_map = {{1, sf::Color{1, 0, 240}},
                      {2, sf::Color{4, 126, 0}},
                      {3, sf::Color{254, 0, 0}},
                      {4, sf::Color{1, 1, 128}},
@@ -21,6 +23,7 @@ struct Renderer {
                      {6, sf::Color{0, 128, 128}},
                      {7, sf::Color{0, 0, 0}},
                      {8, sf::Color{128, 128, 128}}};
+        text.setFont(font);
     }
 
     void render(const Game& game) {
@@ -29,6 +32,10 @@ struct Renderer {
             std::cout << "Font error" << std::endl;
             return;
         }
+
+        text.setCharacterSize(static_cast<uint32_t>(game.grid.deltaX() / 2));
+        text.setString('0');
+        text_width = text.getGlobalBounds().width;
 
         for (sf::Vector2f position: game.grid.grid_positions) {
             sf::RectangleShape square(sf::Vector2f(game.grid.deltaX(), game.grid.deltaY())); // fix this
@@ -85,15 +92,11 @@ struct Renderer {
     }
 
     void drawInt(const Game& game, sf::Vector3u num) {
-        sf::Text text;
-        text.setFont(font);
-        text.setCharacterSize(static_cast<uint32_t>(game.grid.deltaX() / 3));
         text.setFillColor(color_map[num.z - 1].second);
         text.setString(std::to_string(num.z));
-        float height = text.getGlobalBounds().height;
-        float width = text.getGlobalBounds().width;
-        text.setPosition(game.grid.ordToPos(sf::Vector2u{num.x, num.y}) -
-                         sf::Vector2f{width / 2, height / 2});
+        text_height = text.getGlobalBounds().height;
+        text.setPosition(game.grid.ordToPos(sf::Vector2u{num.x, num.y}) - sf::Vector2f{text_width / 2,
+                                                                                       3 * text_height / 4 });
         target.draw(text);
     }
 
