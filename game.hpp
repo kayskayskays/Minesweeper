@@ -37,17 +37,21 @@ struct Game {
             bombed = true;
             return;
         }
-        uncovered.emplace_back(nearestTile.x, nearestTile.y);
+        if (std::find(uncovered.begin(), uncovered.end(), nearestTile) == uncovered.end()) {
+            uncovered.emplace_back(nearestTile.x, nearestTile.y);
+        }
         it = std::find(generator.empty_positions.begin(), generator.empty_positions.end(),
                             grid.posToOrd(nearestTile));
         if (it != generator.empty_positions.end()) {
             generator.empty_positions.erase(it);
-            for (sf::Vector2u adjacent : Grid::adjacentTiles(grid.posToOrd(nearestTile))) {
-                uncovered.emplace_back(grid.ordToPos(adjacent).x, grid.ordToPos(adjacent).y);
-                if (std::find(generator.empty_positions.begin(), generator.empty_positions.end(), adjacent) !=
-                generator.empty_positions.end()) {
-                    uncover(static_cast<uint32_t>(grid.ordToPos(adjacent).x),
-                            static_cast<uint32_t>(grid.ordToPos(adjacent).y));
+            for (sf::Vector2u adjacent : grid.adjacentTiles(grid.posToOrd(nearestTile))) {
+                if (std::find(uncovered.begin(), uncovered.end(), grid.ordToPos(adjacent)) == uncovered.end()) {
+                    uncovered.emplace_back(grid.ordToPos(adjacent).x, grid.ordToPos(adjacent).y);
+                    if (std::find(generator.empty_positions.begin(), generator.empty_positions.end(), adjacent) !=
+                        generator.empty_positions.end()) {
+                        uncover(static_cast<uint32_t>(grid.ordToPos(adjacent).x),
+                                static_cast<uint32_t>(grid.ordToPos(adjacent).y));
+                    }
                 }
             }
         }

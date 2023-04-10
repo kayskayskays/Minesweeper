@@ -88,24 +88,27 @@ struct Grid {
         return grid_positions[0].y - grid_positions[1].y;
     }
 
-    static std::vector<sf::Vector2u> adjacentTiles(sf::Vector2u tile) {
+    [[nodiscard]]
+    std::vector<sf::Vector2u> adjacentTiles(sf::Vector2u tile) const {
+
         std::vector<sf::Vector2u> adjacent;
-        if (tile.y + 1 <= 9)
+
+        if (tile.y + 1 <= dim_y)
             adjacent.emplace_back(tile.x, tile.y + 1);
         if (tile.y - 1 > 0)
             adjacent.emplace_back(tile.x, tile.y - 1);
-        if (tile.x + 1 <= 9) {
+        if (tile.x + 1 <= dim_x) {
             adjacent.emplace_back(tile.x + 1, tile.y);
-            if (tile.y + 1 <= 9)
+            if (tile.y + 1 <= dim_y)
                 adjacent.emplace_back(tile.x + 1, tile.y + 1);
             if (tile.y - 1 > 0)
                 adjacent.emplace_back(tile.x + 1, tile.y - 1);
         }
         if (tile.x - 1 > 0) {
             adjacent.emplace_back(tile.x - 1, tile.y);
-            if (tile.y + 1 <= 9)
+            if (tile.y + 1 <= dim_y)
                 adjacent.emplace_back(tile.x - 1, tile.y + 1);
-            if (tile.y - 1 > 0)
+            if (tile.y - 1 > dim_y)
                 adjacent.emplace_back(tile.x - 1, tile.y - 1);
         }
         return adjacent;

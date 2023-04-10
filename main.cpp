@@ -11,7 +11,7 @@ int main() {
     // might not be constexpr later on
     constexpr uint32_t dim_x = 12;
     constexpr uint32_t dim_y = 12;
-    constexpr uint32_t bomb_count = 20;
+    constexpr uint32_t bomb_count = 12;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 1;

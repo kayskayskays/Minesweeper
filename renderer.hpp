@@ -15,12 +15,12 @@ struct Renderer {
 
     void render(const Game& game) {
 
-        if(!font.loadFromFile("avenir.ttf")) {
+        if (!font.loadFromFile("avenir.ttf")) {
             std::cout << "Font error" << std::endl;
             return;
         }
 
-        for (sf::Vector2f position : game.grid.grid_positions) {
+        for (sf::Vector2f position: game.grid.grid_positions) {
             sf::RectangleShape square(sf::Vector2f(game.grid.deltaX(), game.grid.deltaY())); // fix this
             square.setOutlineColor(sf::Color{96, 96, 96});
             square.setOutlineThickness(5.0f);
@@ -29,7 +29,7 @@ struct Renderer {
             target.draw(square);
         }
 
-        for (sf::Vector2f click : game.uncovered) {
+        for (sf::Vector2f click: game.uncovered) {
             sf::RectangleShape square(sf::Vector2f(game.grid.deltaX() - 5.0f, game.grid.deltaY() - 5.0f)); // fix this
             square.setPosition(click - 0.5f * square.getSize());
             square.setOutlineColor(sf::Color{96, 96, 96});
@@ -44,7 +44,7 @@ struct Renderer {
             }
         }
 
-        for (sf::Vector2f click : game.flags) {
+        for (sf::Vector2f click: game.flags) {
             sf::CircleShape triangle(1.0f, 3);
             triangle.rotate(90);
             triangle.setOrigin(1.0f, 1.0f);
@@ -72,21 +72,6 @@ struct Renderer {
                 }
             }
         }
-
-//        for (sf::Vector3u num : game.generator.num_positions) {
-//            sf::Text text;
-//            text.setFont(font);
-//            text.setCharacterSize(static_cast<uint32_t>(game.grid.deltaX() / 4));
-//            text.setFillColor(sf::Color::White);
-//            text.setString(std::to_string(num.z));
-//            float height = text.getGlobalBounds().height;
-//            float width = text.getGlobalBounds().width;
-//            text.setPosition(game.grid.ordToPos(sf::Vector2u{num.x, num.y}) -
-//                        sf::Vector2f{width / 2, height / 2});
-//            text.setOutlineThickness(game.grid.deltaX() / 20);
-//            text.setOutlineColor(sf::Color::Black);
-//            target.draw(text);
-//        }
     }
 
     void drawInt(const Game& game, sf::Vector3u num) {

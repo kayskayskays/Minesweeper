@@ -66,19 +66,24 @@ struct BombGenerator {
         if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y}) != bomb_positions.end()) {
             count += 1;
         }
-        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y + 1}) != bomb_positions.end()) {
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y + 1}) !=
+        bomb_positions.end()) {
             count += 1;
         }
-        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y - 1}) != bomb_positions.end()) {
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x + 1, y - 1})!=
+        bomb_positions.end()) {
             count += 1;
         }
-        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y}) != bomb_positions.end()) {
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y}) !=
+        bomb_positions.end()) {
             count += 1;
         }
-        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y + 1}) != bomb_positions.end()) {
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y + 1}) !=
+        bomb_positions.end()) {
             count += 1;
         }
-        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y - 1}) != bomb_positions.end()) {
+        if (std::find(bomb_positions.begin(), bomb_positions.end(), sf::Vector2u{x - 1, y - 1}) !=
+        bomb_positions.end()) {
             count += 1;
         }
         return count;
