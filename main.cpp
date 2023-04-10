@@ -9,9 +9,9 @@ int main() {
     constexpr uint32_t window_height = 1000;
 
     // might not be constexpr later on
-    constexpr uint32_t dim_x = 12;
-    constexpr uint32_t dim_y = 12;
-    constexpr uint32_t bomb_count = 12;
+    constexpr uint32_t dim_x = 9;
+    constexpr uint32_t dim_y = 9;
+    constexpr uint32_t bomb_count = 15;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 1;

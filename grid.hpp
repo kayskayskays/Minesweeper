@@ -108,7 +108,7 @@ struct Grid {
             adjacent.emplace_back(tile.x - 1, tile.y);
             if (tile.y + 1 <= dim_y)
                 adjacent.emplace_back(tile.x - 1, tile.y + 1);
-            if (tile.y - 1 > dim_y)
+            if (tile.y - 1 > 0)
                 adjacent.emplace_back(tile.x - 1, tile.y - 1);
         }
         return adjacent;
